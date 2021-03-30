@@ -25,6 +25,5 @@ jobs:
 
       - name: Verify Student Fork
         run: |
-          cd "${{ env.REPO }}"
-          sh ../verify.sh
+          ./verify.sh "${{ env.REPO }}"
   
