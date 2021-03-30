@@ -22,10 +22,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: ${{ matrix.student }}/${{ env.REPO }}
-          token: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Verify Student Fork
         run: |
-          cd "${{ matrix.student }}"/
+          cd "${{ env.REPO }}"
           sh ../verify.sh
   
