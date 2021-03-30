@@ -1,5 +1,9 @@
 name: Verify Assignments
-on: [push]
+on: 
+  schedule:
+    - cron: '30 17 * * *'
+  workflow_dispatch:
+
 
 jobs:
   verify:
@@ -7,20 +11,21 @@ jobs:
     timeout-minutes: 1
     strategy:
       matrix:
-        user: [marcprux]
+        student: [marcprux, marcprux, marcprux]
 
     steps:
-      - name: Configure 
+      - name: Configure Student Fork
         run: |
           echo "REPO=$(echo ${GITHUB_REPOSITORY} | cut -d / -f 2)" >> $GITHUB_ENV
 
-      - name: Checkout 
+      - name: Checkout Student Fork
         uses: actions/checkout@v2
         with:
-          repository: ${{ matrix.user }}/${{ env.GHREPO }}
+          repository: ${{ matrix.student }}/${{ env.REPO }}
           token: ${{ secrets.ACCESS_TOKEN }}
 
-      - name: Verify 
+      - name: Verify Student Fork
         run: |
-          sh verify.sh
+          cd "${{ matrix.student }}"/
+          sh ../verify.sh
   
